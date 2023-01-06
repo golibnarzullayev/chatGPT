@@ -1,0 +1,23 @@
+@media (max-width: 992px) {
+   .sidebar {
+      display: none;
+   }
+
+   .body {
+      left: 0;
+      width: 100%;
+      padding: 30px 30px 50px 30px;
+   }
+   
+   .title {
+      width: 90%;
+   }
+
+   .wrapper {
+      width: 100%;
+   }
+
+   .main {
+      top: 20px;
+   }
+}
