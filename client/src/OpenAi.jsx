@@ -11,7 +11,7 @@ const OpenAi = () => {
    const fetched = async (value) => {
       console.log(value);
       try {
-         const response = await fetch('https://chat-gpt-api-six.vercel.app', {
+         const response = await fetch('https://chatgptapi.vercel.app', {
             method: "post",
             headers: {
                "Content-Type": "application/json"
