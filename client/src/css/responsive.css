@@ -6,11 +6,11 @@
    .body {
       left: 0;
       width: 100%;
-      padding: 30px 30px 50px 30px;
    }
    
    .title {
       width: 90%;
+      transform: translate(-50%, -50%);
    }
 
    .wrapper {

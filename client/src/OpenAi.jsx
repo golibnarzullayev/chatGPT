@@ -1,16 +1,18 @@
+import { useEffect } from 'react';
 import { useState, useRef } from 'react'
 import useAutosizeTextArea from './hooks/useAutoSizeTextArea';
 
 const OpenAi = () => {
-   const textAreaRef = useRef(null)
+   const textAreaRef = useRef(null);
+   const messageEndRef = useRef(null);
    const [chats, setChats] = useState([]);
    const [value, setValue] = useState('');
 
    useAutosizeTextArea(textAreaRef.current, value);
 
    const fetched = async (value) => {
-      console.log(value);
       try {
+         setChats([...chats, { type: 'user', message: value }])
          const response = await fetch('https://chatgptapi.vercel.app', {
             method: "post",
             headers: {
@@ -25,12 +27,13 @@ const OpenAi = () => {
 
          if(!data.err) return data
          else return { type: 'ai', message: data.err }
-      } catch (err) {}
+      } catch (err) {
+         return {type: 'ai', message: "A server error has occurred. Please try again"}
+      }
    }
 
    const press = async (e) => {
       e.preventDefault();
-      setChats([...chats, { type: 'user', message: value }])
       setValue('')
       const result = await fetched(value);
       setChats((ch) => [...ch, { type: result.type, message: `${result.message}` }])
@@ -39,6 +42,10 @@ const OpenAi = () => {
    const onNewChat = () => {
       setChats([])
    }
+
+   useEffect(() => {
+      messageEndRef.current.scroll({ top: messageEndRef.current.clientHeight, behavior: "smooth" })
+   }, [chats])
    return (
       <div className='container'>
          <div className='sidebar'>
@@ -46,17 +53,15 @@ const OpenAi = () => {
          </div>
          <div className="body">
             <div className="wrapper">
-               <div className="main">
-                  <h3 className='title'>Hello, my name is <b>ChatGPT</b>, I was developed by Golib Narzullayev using openAi</h3>
-                  {
-                     chats.map((item, index) => (
-                        <div style={{ flexDirection: 'column' }} key={index} className={item.type}>
-                           {
-                              <span style={{ whiteSpace: 'pre-wrap', lineHeight: '30px' }}>{item.message}</span>
-                           }
-                        </div>
-                     ))
-                  }
+               <div className="main" ref={messageEndRef}>
+                  <h3 className='title'>Hello, my name is <b>ChatGPT</b></h3>
+                  <div className='message-list'>
+                     {
+                        chats.map((item, index) => (
+                           <span className={item.type} style={{ whiteSpace: 'pre-wrap', lineHeight: '30px' }} key={index}>{item.message}</span>
+                        ))
+                     }
+                  </div>
                </div>
                <div className="footer">
                   <form onSubmit={press} className="form">

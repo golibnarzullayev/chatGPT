@@ -5,6 +5,7 @@
 body {
    margin: 0;
    font-family: 'Montserrat', sans-serif;
+   overflow-y: hidden;
 }
 
 .title {
@@ -13,6 +14,7 @@ body {
    position: fixed;
    top: 30px;
    color: #fff;
+   left: 50%;
 }
 
 .container {
@@ -49,7 +51,8 @@ body {
 }
 
 .main {
-   overflow: auto;
+   overflow-y: auto;
+   height: 100vh;
 }
 
 .button {
@@ -70,6 +73,7 @@ body {
 }
 
 .form {
+   margin-top: 20px;
    display: flex;
    align-items: center;
 }
